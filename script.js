@@ -23,7 +23,7 @@ let numberOne = 0;
 let numberTwo = 0;
 let operatorSign = '';
 
-function operate(numberOne, numberTwo, operatorSign){
+function operate(numberOne,operatorSign, numberTwo){
     let result = 0;
     switch(operatorSign){     
         case '+':

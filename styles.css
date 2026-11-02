@@ -1,0 +1,11 @@
+#display {
+  width: 100%;           /* Takes up the full width of the calculator container */
+  height: 60px;          /* Gives the screen a clear, readable height */
+  background-color: #252525; /* Dark digital screen appearance */
+  color: #ffffff;        /* White text color for readability */
+  border: none;          /* Removes default input borders */
+  padding: 0 15px;       /* Adds space inside the display edges */
+  font-size: 2rem;       /* Larger text size for calculation values */
+  text-align: right;     /* Forces numbers to align to the right side */
+  box-sizing: border-box;/* Ensures padding doesn't break the layout width */
+}
