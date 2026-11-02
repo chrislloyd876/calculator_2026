@@ -22,9 +22,9 @@ function divide(num1, num2){
 let numberOne = 0;
 let numberTwo = 0;
 let operatorSign = '';
+let result = 0;
 
 function operate(numberOne,operatorSign, numberTwo){
-    let result = 0;
     switch(operatorSign){     
         case '+':
             result = add(numberOne,numberTwo);
@@ -43,3 +43,46 @@ function operate(numberOne,operatorSign, numberTwo){
     }
     return result;
 }
+
+function getFirstNumber(){
+   return parseInt(display.value); 
+}
+
+function clearScreen(){
+        numberOne = 0;
+        numberTwo = 0;
+        operatorSign = '';
+        display.value = 0;
+}
+
+
+const display = document.querySelector('#display');
+const numberButtons = document.querySelectorAll('.number-button');
+numberButtons.forEach((numberButton) => {
+    numberButton.addEventListener('click', (e) => {
+    display.value += e.target.textContent;
+    });
+});
+
+const operatorButtons = document.querySelectorAll('.operator-button');
+operatorButtons.forEach((operatorButton) => {
+    operatorButton.addEventListener('click', (e) => {
+        if(e.target.textContent === 'CLEAR'){
+            clearScreen();              
+        }
+        if(e.target.textContent === '='){
+            numberTwo += parseInt(display.value);
+            let newResult = operate(numberOne,operatorSign,numberTwo);
+            display.value = newResult;
+            numberOne = newResult;
+            numberTwo = 0;
+            newResult = 0;
+        } else {
+            numberOne = getFirstNumber();
+            operatorSign = e.target.textContent;
+            console.log(operatorSign);
+            display.value += e.target.textContent;
+            display.value = '';
+        }
+    });
+});
