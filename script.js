@@ -19,24 +19,25 @@ function divide(num1, num2){
     return num1 / num2;
 }
 
-let numberOne = 0;
-let numberTwo = 0;
+let firstNumber = 0;
+let secondNumber = 0;
 let operatorSign = '';
 let result = 0;
+let isScreenReset = true;
 
-function operate(numberOne,operatorSign, numberTwo){
+function operate(firstNumber,operatorSign, secondNumber){
     switch(operatorSign){     
         case '+':
-            result = add(numberOne,numberTwo);
+            result = add(firstNumber,secondNumber);
             break;
         case '-':
-            result = subtract(numberOne,numberTwo);
+            result = subtract(firstNumber,secondNumber);
             break;
         case '*':
-            result = multiply(numberOne,numberTwo);
+            result = multiply(firstNumber,secondNumber);
             break;
         case '/':
-            result = divide(numberOne,numberTwo);
+            result = divide(firstNumber,secondNumber);
             break;
         default:
             alert(`Invalid operator`);
@@ -44,15 +45,16 @@ function operate(numberOne,operatorSign, numberTwo){
     return result;
 }
 
-function getFirstNumber(){
+function getNumber(){
    return parseInt(display.value); 
 }
 
 function clearScreen(){
-        numberOne = 0;
-        numberTwo = 0;
+        firstNumber = 0;
+        secondNumber = 0;
         operatorSign = '';
-        display.value = 0;
+        display.value = '0';
+        result = 0;
 }
 
 
@@ -60,7 +62,12 @@ const display = document.querySelector('#display');
 const numberButtons = document.querySelectorAll('.number-button');
 numberButtons.forEach((numberButton) => {
     numberButton.addEventListener('click', (e) => {
-    display.value += e.target.textContent;
+        if(display.value == 0 || isScreenReset == true){
+            display.value = '';
+            isScreenReset = false;
+        }
+        display.value += e.target.textContent;
+
     });
 });
 
@@ -69,20 +76,29 @@ operatorButtons.forEach((operatorButton) => {
     operatorButton.addEventListener('click', (e) => {
         if(e.target.textContent === 'CLEAR'){
             clearScreen();              
-        }
-        if(e.target.textContent === '='){
-            numberTwo += parseInt(display.value);
-            let newResult = operate(numberOne,operatorSign,numberTwo);
-            display.value = newResult;
-            numberOne = newResult;
-            numberTwo = 0;
-            newResult = 0;
-        } else {
-            numberOne = getFirstNumber();
+        } else if(operatorSign != '' && firstNumber != null){
+            secondNumber = getNumber();
+            let newResult = operate(firstNumber,operatorSign,secondNumber);
             operatorSign = e.target.textContent;
-            console.log(operatorSign);
-            display.value += e.target.textContent;
-            display.value = '';
+            display.value = newResult;
+            firstNumber = newResult;
+            secondNumber = 0;
+            newResult = 0;
+            isScreenReset = true;
+        }
+         else if(e.target.textContent === '='){
+            secondNumber = getNumber();
+            result = operate(firstNumber,operatorSign,secondNumber);
+            display.value = result;
+            firstNumber = result;
+            secondNumber = 0;
+            result = 0;
+            isScreenReset = true;
+            operatorSign = '';
+        } else {
+        firstNumber = getNumber();
+        operatorSign = e.target.textContent;
+        isScreenReset = true;
         }
     });
 });
