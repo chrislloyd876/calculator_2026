@@ -46,7 +46,7 @@ function operate(firstNumber,operatorSign, secondNumber){
 }
 
 function getNumber(){
-   return parseInt(display.value); 
+   return parseFloat(display.value); 
 }
 
 function clearScreen(){
@@ -71,14 +71,25 @@ numberButtons.forEach((numberButton) => {
     });
 });
 
+const decimalButton = document.querySelector('#decimal');
+decimalButton.addEventListener('click',(e) => {
+    if (display.value.includes('.')) return;
+    if (display.value === '' || display.value === '0'){
+        display.value = '0.';
+    } else {
+        display.value += '.';
+    }
+});
+
 const operatorButtons = document.querySelectorAll('.operator-button');
 operatorButtons.forEach((operatorButton) => {
     operatorButton.addEventListener('click', (e) => {
+        let newResult;
         if(e.target.textContent === 'CLEAR'){
             clearScreen();              
         } else if(operatorSign != '' && firstNumber != null){
             secondNumber = getNumber();
-            let newResult = operate(firstNumber,operatorSign,secondNumber);
+            newResult = operate(firstNumber,operatorSign,secondNumber);
             operatorSign = e.target.textContent;
             display.value = newResult;
             firstNumber = newResult;
@@ -88,11 +99,11 @@ operatorButtons.forEach((operatorButton) => {
         }
          else if(e.target.textContent === '='){
             secondNumber = getNumber();
-            result = operate(firstNumber,operatorSign,secondNumber);
-            display.value = result;
-            firstNumber = result;
+            newResult = operate(firstNumber,operatorSign,secondNumber);
+            display.value = newResult;
+            firstNumber = newResult;
             secondNumber = 0;
-            result = 0;
+            newResult = 0;
             isScreenReset = true;
             operatorSign = '';
         } else {
